@@ -1,11 +1,10 @@
 # CakePHP specific files #
 ##########################
-/config/app_local.php
+#/config/app_local.php
 /config/.env
 /logs/*
 /tmp/*
 /vendor/*
-/videos/*
 
 # OS generated files #
 ######################
@@ -42,3 +41,7 @@ nbproject/*
 .vscode
 # Sass preprocessor
 .sass-cache/
+
+# Additional files and folders #
+################################
+/videos/*
