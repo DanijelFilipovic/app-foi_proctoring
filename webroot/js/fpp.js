@@ -24,15 +24,12 @@ window.onload = () => {
 	
 	
 	var displayMediaOptions = {
-		video: {
-			cursor: "always",
-			displaySurface: "browser"
-		},
-		audio: false
+		video: true,
+		audio: true
 	};
 	
 	btnRecord.addEventListener("click", () => {
-		navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
+		navigator.mediaDevices.getUserMedia(displayMediaOptions)
 			.then(stream => {
 				video.srcObject = stream;
 				mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
