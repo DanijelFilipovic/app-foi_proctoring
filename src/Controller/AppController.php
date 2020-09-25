@@ -28,6 +28,13 @@ use Cake\Controller\Controller;
  */
 class AppController extends Controller
 {
+	protected  $unauthenticatedRoutes = [
+		['controller' => 'Users', 'action' => 'add'],
+		['controller' => 'Users', 'action' => 'check'],
+		['controller' => 'Users', 'action' => 'index'],
+		['controller' => 'Login', 'action' => 'login'],
+	];
+	
     /**
      * Initialization hook method.
      *
@@ -49,4 +56,16 @@ class AppController extends Controller
          */
         //$this->loadComponent('FormProtection');
     }
+	
+	public function beforeFilter(\Cake\Event\EventInterface $event) {
+		parent::beforeFilter($event);
+		$controller = $this->request->getParam('controller');
+		$action = $this->request->getParam('action');
+		$route = ['controller' => $controller, 'action' => $action];
+		$session = $this->request->getSession();
+		if (!in_array($route, $this->unauthenticatedRoutes) && !$session->check('user.id')) {
+			$this->redirect(['controller' => 'Login', 'action' => 'login']);
+		}
+	}
+
 }

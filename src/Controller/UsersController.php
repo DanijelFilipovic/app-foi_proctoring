@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Event\EventInterface;
-use App\Model\Entity\User;
 use App\Model\Table\UsersTable;
 use App\Model\Table\UserSessionsTable;
 
@@ -12,21 +10,11 @@ class UsersController extends AppController {
 
 	private UsersTable $usersTable;
 	private UserSessionsTable $userSessionsTable;
-	private $unathenticatedActions = ['add', 'check', 'index', 'upload'];
 	
 	public function initialize(): void {
 		parent::initialize();
 		$this->usersTable = $this->Users;
 		$this->userSessionsTable = $this->getTableLocator()->get('UserSessions');
-	}
-	
-	public function beforeFilter(EventInterface $event) {
-		parent::beforeFilter($event);
-		$action = $this->request->getParam('action');
-		$session = $this->request->getSession();
-		if (!in_array($action, $this->unathenticatedActions) && !$session->check('user.id')) {
-			$this->redirect(['controller' => 'Login', 'action' => 'login']);
-		}
 	}
 	
 	public function index() {
@@ -88,13 +76,9 @@ class UsersController extends AppController {
 		if ($this->request->is('post')) {
 			$video = $this->request->getUploadedFile('video');
 			if ($video != null) {
-				try {
-					$time = time();
-					$video->moveTo("../videos/video-$time.webm");
-					$message = "Upload success!";
-				} catch (Exception $ex) {
-					$message = $ex->getMessage();
-				}
+				$time = time();
+				$video->moveTo("../videos/video-$time.webm");
+				$message = "Upload success!";
 			} else {
 				$message = "Upload failed...";
 			}
