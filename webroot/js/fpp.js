@@ -9,7 +9,7 @@ function uploadVideo(chunks) {
 			console.log(request.response);
 		}
 	};
-	request.open("POST", "/foi_proctoring_project/rest/users/upload");
+	request.open("POST", "/foi_proctoring_project/users/upload");
 	request.send(formData);
 }
 
