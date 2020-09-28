@@ -14,5 +14,6 @@ CREATE TABLE users (
 
 CREATE TABLE user_sessions (
   user_id int(11) NOT NULL,
-  session_id char(40) NOT NULL
+  session_id char(40) NOT NULL,
+  recording int(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
