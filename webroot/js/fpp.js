@@ -13,6 +13,28 @@ function uploadVideo(chunks) {
 	request.send(formData);
 }
 
+function notifyRecordingStarted() {
+	let request = new XMLHttpRequest();
+	request.onreadystatechange = () => {
+		if (request.readyState === 4) {
+			console.log(request.response);
+		}
+	};
+	request.open("POST", "/app-foi_proctoring/recording/start");
+	request.send();
+}
+
+function notifyRecordingStopped() {
+	let request = new XMLHttpRequest();
+	request.onreadystatechange = () => {
+		if (request.readyState === 4) {
+			console.log(request.response);
+		}
+	};
+	request.open("POST", "/app-foi_proctoring/recording/stop");
+	request.send();
+}
+
 window.onload = () => {
 
 	const btnRecord = document.getElementById("record-button");
@@ -21,7 +43,6 @@ window.onload = () => {
 	
 	let mediaRecorder = null;
 	let chunks = [];
-	
 	
 	var displayMediaOptions = {
 		video: true,
@@ -44,6 +65,9 @@ window.onload = () => {
 				};
 				
 				mediaRecorder.start();
+				notifyRecordingStarted();
+				btnRecord.disabled = true;
+				btnStop.disabled = false;
 			})
 			.catch(error => console.log(`Error: ${error}`));
 	});
@@ -54,7 +78,10 @@ window.onload = () => {
 		video.srcObject = null;
 		if (mediaRecorder !== null) {
 			mediaRecorder.stop();
+			notifyRecordingStopped();
 		}
+		btnRecord.disabled = false;
+		btnStop.disabled = true;
 	});
 
 };
