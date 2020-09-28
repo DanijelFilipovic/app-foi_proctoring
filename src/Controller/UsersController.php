@@ -29,7 +29,8 @@ class UsersController extends AppController {
 			$usersInfo[] = [
 				'id' => $user->id,
 				'username' => $user->username,
-				'loggedIn' => $userSession != null
+				'loggedIn' => $this->isLoggedIn($userSession),
+				'recording' => $this->isRecording($userSession)
 			];
 		}
 		$this->set('users', $usersInfo);
@@ -84,6 +85,16 @@ class UsersController extends AppController {
 			}
 		}
 		$this->set('message', $message);
+	}
+	
+	private function isLoggedIn($userSession) {
+		return $userSession != null;
+	}
+
+	public function isRecording($userSession) {
+		return $userSession != null
+			? $userSession->recording == 1
+			: false;
 	}
 
 }
