@@ -36,4 +36,7 @@ $routes->scope('/', function(RouteBuilder $builder) {
 	$builder->connect('/logout', ['controller' => 'Login', 'action' => 'logout']);
 	
 	$builder->connect('/', ['controller' => 'Pages', 'action' => 'index']);
+	
+	$builder->connect('/recording/start', ['controller' => 'Recording', 'action' => 'start']);
+	$builder->connect('/recording/stop', ['controller' => 'Recording', 'action' => 'stop']);
 });
