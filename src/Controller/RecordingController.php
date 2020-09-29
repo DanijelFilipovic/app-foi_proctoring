@@ -14,6 +14,12 @@ class RecordingController extends AppController {
 		$this->userSessionsTable = $this->getTableLocator()->get('UserSessions');
 	}
 	
+	public function beforeFilter(\Cake\Event\EventInterface $event) {
+		parent::beforeFilter($event);
+		$this->viewBuilder()->disableAutoLayout();
+	}
+
+	
 	public function start() {
 		$message = 'Could not update the UserSessions table with the start of recording.';
 		$userSession = $this->getUserSession();
