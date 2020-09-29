@@ -51,23 +51,25 @@ class UsersController extends AppController {
 	
 	public function check($username) {
 		$this->request->allowMethod(['get']);
+		$loggedIn = false;
+		$recording = false;
 		$user = $this->usersTable
 			->find()
 			->where(['username' => $username])
 			->first();
 		if ($user != null) {
-			$userSessions = $this->userSessionsTable
+			$userSession = $this->userSessionsTable
 				->find()
 				->where(['user_id' => $user->id])
 				->first();
-			$loggedIn = $userSessions != null;
-		} else {
-			$loggedIn = false;
+			$loggedIn = $this->isLoggedIn($userSession);
+			$recording = $this->isRecording($userSession);
 		}
 		$this->RequestHandler->renderAs($this, 'json');
 		$this->set([
-			"username" => $username,
-			"loggedIn" => $loggedIn
+			'username' => $username,
+			'loggedIn' => $loggedIn,
+			'recording' => $recording
 		]);
 	}
 	
