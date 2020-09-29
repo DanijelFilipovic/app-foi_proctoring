@@ -59,6 +59,10 @@ class AppController extends Controller
 	
 	public function beforeFilter(\Cake\Event\EventInterface $event) {
 		parent::beforeFilter($event);
+		$this->authenticateRouting();
+	}
+	
+	private function authenticateRouting() {
 		$controller = $this->request->getParam('controller');
 		$action = $this->request->getParam('action');
 		$route = ['controller' => $controller, 'action' => $action];
