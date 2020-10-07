@@ -30,6 +30,7 @@ class LoginController extends AppController {
 			} else {
 				$this->createSession($user);
 				$this->Flash->success("Successfully loged in as '$user->username'.");
+				$this->redirect(['controller' => 'Pages', 'action' => 'index']);
 			}
 		}
 		$this->set('loginData');
